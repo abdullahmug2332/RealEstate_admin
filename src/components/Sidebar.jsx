@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import { AiTwotoneIdcard } from "react-icons/ai";
 import { VscGraph } from "react-icons/vsc";
+import { FaListCheck } from "react-icons/fa6";
 import logo from "../assets/footerlogo.png"; // Update the path to your logo image
 
 const Sidebar = () => {
@@ -45,6 +46,13 @@ const Sidebar = () => {
         >
           <AiTwotoneIdcard className="text-[21px] text-white" />
           <div className="text-white text-[16px] font-semibold">Add Property</div>
+        </Link>
+        <Link
+          to="/soldproperties"
+          className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
+        >
+          <FaListCheck className="text-[21px] text-white" />
+          <div className="text-white text-[16px] font-semibold">Sold Properties</div>
         </Link>
       </div>
     </section>

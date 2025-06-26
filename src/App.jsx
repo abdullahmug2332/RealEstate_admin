@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Properties from "./pages/Properties";
 import AddProperty from "./pages/AddProperty";
+import SoldProperties from "./pages/SoldProperties";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/addproperty" element={<AddProperty />} />
+          <Route path="/soldproperties" element={<SoldProperties />} />
       </Routes>
       <Sidebar />
     </>
