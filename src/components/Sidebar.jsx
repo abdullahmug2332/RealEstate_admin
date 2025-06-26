@@ -21,7 +21,7 @@ const Sidebar = () => {
       <img
         src={logo}
         alt="Logo"
-        className="w-[90%] mx-auto mt-[20px] hover:scale-[1.06] duration-300 cursor-pointer"
+        className="w-[90%] mx-auto mt-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
       />
 
       <div className="flex flex-col ml-[40px] gap-[20px] mt-[90px]">
@@ -33,14 +33,14 @@ const Sidebar = () => {
           <div className="text-white text-[16px] font-semibold">Dashboard</div>
         </Link>
         <Link
-          to="/about"
+          to="/properties"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
         >
           <IoHome className="text-[21px] text-white" />
           <div className="text-white text-[16px] font-semibold">Properties</div>
         </Link>
         <Link
-          to="/services"
+          to="/addproperty"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
         >
           <AiTwotoneIdcard className="text-[21px] text-white" />
