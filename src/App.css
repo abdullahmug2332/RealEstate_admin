@@ -1,19 +1,19 @@
 .color{
-   color:#18185E ; 
+   color:#1e1e1f ; 
 }
 .bg{
-    background: #18185E;
+    background: #1e1e1f;
 }
 
 .p{
-    color: #919191 ;
+    color: #1e1e1f ;
 }
 p{
     font-family: "Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif;
-    color:#18185E;
+    color:#1e1e1f;
 }
 p,h1,h2,h3,h4,h5,h6{
-    color:#18185E;
+    color:#1e1e1f;
 }
 input, textarea{
     @apply my-[5px] border px-[10px] border w-[100%] py-[10px] rounded-[5px] my-[5px]
@@ -22,10 +22,10 @@ input, textarea{
     @apply px-[10px] border w-[100%] py-[10px] rounded-[5px] my-[5px] 
 }
 input:focus,textarea:focus{
-    @apply ring-[#18185E] ring-2 outline-0  
+    @apply ring-[#1e1e1f] ring-2 outline-0  
 }
 .btn{
-    @apply bg-[#18185E] text-white w-full py-[10px] rounded-[5px] duration-500 hover:scale-[1.02]
+    @apply bg-[#1e1e1f] text-white w-full py-[10px] rounded-[5px] duration-500 hover:scale-[1.02]
 }
 .ld{
     border-right: 1px solid rgb(199, 199, 199);

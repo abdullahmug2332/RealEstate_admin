@@ -2,11 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
-import { MdContactPhone } from "react-icons/md";
-import { FaInfoCircle } from "react-icons/fa";
-import { RiComputerLine } from "react-icons/ri";
 import { AiTwotoneIdcard } from "react-icons/ai";
-import logo from "../assets/footer-logo.svg"; // Update the path to your logo image
+import { VscGraph } from "react-icons/vsc";
+import logo from "../assets/footerlogo.png"; // Update the path to your logo image
 
 const Sidebar = () => {
   const location = useLocation();
@@ -23,7 +21,7 @@ const Sidebar = () => {
       <img
         src={logo}
         alt="Logo"
-        className="w-[120px] sm:w-[130px] md:w-[140px] mx-auto mt-[20px] hover:scale-[1.06] duration-300 cursor-pointer"
+        className="w-[90%] mx-auto mt-[20px] hover:scale-[1.06] duration-300 cursor-pointer"
       />
 
       <div className="flex flex-col ml-[40px] gap-[20px] mt-[90px]">
@@ -31,36 +29,22 @@ const Sidebar = () => {
           to="/"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
         >
-          <IoHome className="text-[21px] text-white" />
-          <div className="text-white text-[16px] font-semibold">Home</div>
+          <VscGraph className="text-[21px] text-white" />
+          <div className="text-white text-[16px] font-semibold">Dashboard</div>
         </Link>
         <Link
           to="/about"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
         >
-          <FaInfoCircle className="text-[23px] text-white" />
-          <div className="text-white text-[16px] font-semibold">About</div>
+          <IoHome className="text-[21px] text-white" />
+          <div className="text-white text-[16px] font-semibold">Properties</div>
         </Link>
         <Link
           to="/services"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
         >
-          <RiComputerLine className="text-[21px] text-white" />
-          <div className="text-white text-[16px] font-semibold">Services</div>
-        </Link>
-        <Link
-          to="/contact"
-          className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
-        >
-          <MdContactPhone className="text-[21px] text-white" />
-          <div className="text-white text-[16px] font-semibold">Contact</div>
-        </Link>
-        <Link
-          to="/blog"
-          className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
-        >
-          <AiTwotoneIdcard className="text-[25px] text-white" />
-          <div className="text-white text-[16px] font-semibold">Blogs</div>
+          <AiTwotoneIdcard className="text-[21px] text-white" />
+          <div className="text-white text-[16px] font-semibold">Add Property</div>
         </Link>
       </div>
     </section>
