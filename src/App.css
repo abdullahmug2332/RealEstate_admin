@@ -21,7 +21,7 @@ input, textarea{
 .input{
     @apply px-[10px] border w-[100%] py-[10px] rounded-[5px] my-[5px] 
 }
-input:focus,textarea:focus{
+input:focus,textarea:focus,select:focus{
     @apply ring-[#1e1e1f] ring-2 outline-0  
 }
 .btn{

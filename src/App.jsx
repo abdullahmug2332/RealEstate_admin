@@ -6,6 +6,7 @@ import PrivateRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Properties from "./pages/Properties";
+import AddProperty from "./pages/AddProperty";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/auth" element={<Auth />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/properties" element={<Properties />} />
+          <Route path="/addproperty" element={<AddProperty />} />
       </Routes>
       <Sidebar />
     </>
