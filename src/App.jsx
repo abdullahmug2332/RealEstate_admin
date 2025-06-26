@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Auth from "./pages/Auth";
+import PrivateRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
-      <p className='text-center'>f</p>
+      <Navbar />
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+          <Route path="/" element={<Home />} />
+      </Routes>
+      <Sidebar />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
