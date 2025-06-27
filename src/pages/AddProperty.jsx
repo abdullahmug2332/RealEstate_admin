@@ -25,8 +25,8 @@ const PropertyForm = ({ onSubmit }) => {
         const fileType = file.type.startsWith("image")
           ? "image"
           : file.type.startsWith("video")
-          ? "video"
-          : "other";
+            ? "video"
+            : "other";
 
         return {
           type: fileType,
@@ -50,33 +50,33 @@ const PropertyForm = ({ onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formPayload = new FormData();
+
+    // Append regular fields
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key !== "media") {
+        formPayload.append(key, value);
+      }
+    });
+
+    // Append media files
+    formData.media.forEach((item) => {
+      formPayload.append("media", item.file); // field name must match multer
+    });
+
+    formPayload.append("soldout", false);
+    formPayload.append("soldByUs", false);
+    formPayload.append("buyerName", " ");
+    formPayload.append("sellerName", " ");
+    formPayload.append("commission", 0);
+    formPayload.append("createdAt", new Date().toISOString());
+    formPayload.append("soldAt", "");
+    formPayload.append("status", "available");
+
     try {
       const response = await fetch("http://localhost:5000/properties", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          price: formData.price,
-          location: formData.location,
-          type: formData.type,
-          measurement: formData.measurement,
-          unit: formData.unit,
-          rooms: formData.rooms,
-          bath: formData.bath,
-          front: formData.front,
-          back: formData.back,
-          description: formData.description,
-          media: formData.media,
-          soldout:false,
-          soldByUs:false,
-          buyerName:" ",
-          sellerName:" ",
-          commission:0,
-          createdAt:new Date().toISOString(),
-          soldAt:null,
-          status:"available"
-        }),
+        body: formPayload,
       });
 
       const data = await response.json();
@@ -89,6 +89,7 @@ const PropertyForm = ({ onSubmit }) => {
 
       alert("Property added successfully!");
 
+      // Reset form
       setFormData({
         price: "",
         location: "",
@@ -108,13 +109,13 @@ const PropertyForm = ({ onSubmit }) => {
     }
   };
 
+
   return (
     <div
-      className={`${
-        toggle === false
+      className={`${toggle === false
           ? "w-full"
           : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
-      } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
+        } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
     >
       <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg">
         <h1 className="text-[40px] font-semibold">Add Property</h1>
