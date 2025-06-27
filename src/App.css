@@ -40,3 +40,6 @@ textarea{
     min-height: 110px;
     @apply border
 }
+.btn3{
+   @apply bg-[#1E1E1F] text-white text-[20px] w-[50%] py-[10px]
+}

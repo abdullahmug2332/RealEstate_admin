@@ -20,7 +20,6 @@ const PropertyForm = ({ onSubmit }) => {
   const handleChange = (e) => {
     const { name, type, value, files } = e.target;
 
-    // Handle file input
     if (type === "file") {
       const fileArray = Array.from(files).map((file) => {
         const fileType = file.type.startsWith("image")
@@ -31,8 +30,8 @@ const PropertyForm = ({ onSubmit }) => {
 
         return {
           type: fileType,
-          src: URL.createObjectURL(file), // preview URL
-          file, // original file for backend use
+          src: URL.createObjectURL(file),
+          file,
         };
       });
 
@@ -41,7 +40,6 @@ const PropertyForm = ({ onSubmit }) => {
         media: [...prev.media, ...fileArray],
       }));
     } else {
-      // Handle other input types (text, number, select, textarea)
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -49,10 +47,65 @@ const PropertyForm = ({ onSubmit }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-    alert("Property added successfully!");
+
+    try {
+      const response = await fetch("http://localhost:5000/properties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          price: formData.price,
+          location: formData.location,
+          type: formData.type,
+          measurement: formData.measurement,
+          unit: formData.unit,
+          rooms: formData.rooms,
+          bath: formData.bath,
+          front: formData.front,
+          back: formData.back,
+          description: formData.description,
+          media: formData.media,
+          soldout:false,
+          soldByUs:false,
+          buyerName:" ",
+          sellerName:" ",
+          commission:0,
+          createdAt:new Date().toISOString(),
+          soldAt:null,
+          status:"available"
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Error creating property:", data.error);
+        alert("Failed to add property.");
+        return;
+      }
+
+      alert("Property added successfully!");
+
+      setFormData({
+        price: "",
+        location: "",
+        type: "sale",
+        measurement: "",
+        unit: "marla",
+        rooms: "",
+        bath: "",
+        front: "",
+        back: "",
+        description: "",
+        media: [],
+      });
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("An error occurred while adding the property.");
+    }
   };
 
   return (

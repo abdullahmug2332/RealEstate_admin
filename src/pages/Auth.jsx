@@ -4,11 +4,10 @@ import { PiSmileySad } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
 import { baseURL } from "../../API/baseURL";
-import img1 from "../assets/auth.jpg"; // Make sure these image imports exist
-import img2 from "../assets/favicon.png"; // Or change to your correct path
+import img1 from "../assets/favicon2.png"; 
 
 const Login = () => {
-  const [toogle, setToogle] = useState(false);
+  const [toogle, setToogle] = useState(false); // Paswword message 8 characters long .
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -59,22 +58,17 @@ const Login = () => {
   };
 
   return (
-    <section className="bg-blue-100 min-h-[100vh] py-[60px]">
+    <section className="bg-[#1E1E1F] min-h-[100vh] py-[60px]">
       <div className="w-[95%] md:w-[80%] min-h-[600px] bg-white mx-auto border p-[30px] flex items-center relative">
         <div className="w-[45%] hidden md:block ">
           <div>
-            <img src={img1} className="w-full" alt="Banner" />
-            <img
-              src={img2}
-              className=" w-[200px] absolute top-[10px] left-2 p-[20px] rounded-[20px]"
-              alt="Logo"
-            />
+            <img src={img1} className="w-[80%] mx-auto" alt="Banner" />
           </div>
         </div>
         <div className="w-[100%] md:w-[55%] px-[20px] md:pl-[50px] relative">
           <p className="p mt-[20px]">You can get your stats with</p>
           <p className="color text-[35px] font-semibold mb-[30px]">
-            Sign In to All Spark Technologies
+            Sign In to Abdullah Real Estate Admin Panel
           </p>
           <form onSubmit={handleSubmit}>
             <label className="mt-[20px]">Email</label>

@@ -25,7 +25,7 @@ const Sidebar = () => {
         className="w-[90%] mx-auto mt-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
       />
 
-      <div className="flex flex-col ml-[40px] gap-[20px] mt-[90px]">
+      <div className="flex flex-col ml-[30px] lg:ml-[40px] gap-[20px] mt-[90px]">
         <Link
           to="/"
           className="flex items-center gap-[10px] hover:scale-[1.06] duration-300 cursor-pointer"
