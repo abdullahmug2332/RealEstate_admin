@@ -10,6 +10,7 @@ import Properties from "./pages/Properties";
 import AddProperty from "./pages/AddProperty";
 import SoldProperties from "./pages/SoldProperties";
 import Property from "./components/Property";
+import EditProperty from "./pages/EditProperty";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/addproperty" element={<AddProperty />} />
           <Route path="/soldproperties" element={<SoldProperties />} />
           <Route path="/property/:id" element={<Property />} />
+          <Route path="/editproperty/:id" element={<EditProperty/>}/>
 
         </Route>
         <Route path="*" element={<RouteCheck />} />

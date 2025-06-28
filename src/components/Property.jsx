@@ -237,13 +237,6 @@ export default function Property() {
                     <h2 className="text-xl font-semibold mt-2">Description</h2>
                     <p >{property.description}</p>
                 </div>
-                
-                {property.status === "available" && (
-                    <div className="flex gap-[5px] mt-[20px]">
-                        <button className="btn3">Edit the Property</button>
-                        <button className="btn3">Mark as Sold</button>
-                    </div>
-                )}
                 {/* Only show these if the property is sold */}
                 {property.status === "sold" && (
 
@@ -278,7 +271,15 @@ export default function Property() {
                             <p className="pp"><span className="font-semibold">Commission:</span> PKR {property.commission || 0}</p>
                         </div>
                     </div>
+                )}                
+                <div className="flex gap-1">
+                {property.status === "available" && (
+
+                        <button className="btn3">Mark as Sold</button>
                 )}
+                <button className="btn3"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
+                </div>
+
             </section>
         </div>
     );
