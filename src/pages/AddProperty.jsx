@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 const PropertyForm = ({ onSubmit }) => {
+  const navigate = useNavigate();
   const toggle = useSelector((state) => state.toggle.value);
   const [formData, setFormData] = useState({
     price: "",
@@ -71,7 +74,6 @@ const PropertyForm = ({ onSubmit }) => {
     formPayload.append("commission", 0);
     formPayload.append("createdAt", new Date().toISOString());
     formPayload.append("soldAt", "");
-    formPayload.append("status", "available");
 
     try {
       const response = await fetch("http://localhost:5000/properties", {
@@ -88,8 +90,6 @@ const PropertyForm = ({ onSubmit }) => {
       }
 
       alert("Property added successfully!");
-
-      // Reset form
       setFormData({
         price: "",
         location: "",
@@ -103,6 +103,8 @@ const PropertyForm = ({ onSubmit }) => {
         description: "",
         media: [],
       });
+      navigate("/properties")
+
     } catch (error) {
       console.error("Network error:", error);
       alert("An error occurred while adding the property.");

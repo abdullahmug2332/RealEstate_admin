@@ -9,7 +9,6 @@ import axios from "axios";
 
 export default function Properties() {
     const toggle = useSelector((state) => state.toggle.value);
-    // const [data, setData] = useState([
     //     {
     //         price: 900000000,
     //         location: "Bahria Town - Jinnah Block",
@@ -187,7 +186,7 @@ export default function Properties() {
         axios.get("http://localhost:5000/properties")
             .then(res => {
                 const availableProperties = res.data.filter(
-                    (property) => property.status === "available"
+                    (property) =>   property.soldout == false
                 );
                 setData(availableProperties);
             })
@@ -234,7 +233,6 @@ export default function Properties() {
                             commission={item.commission}
                             createdAt={item.createdAt}
                             soldAt={item.soldAt}
-                            status={item.status}
                         />
                     </div>
                 ))}

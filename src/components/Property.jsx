@@ -14,7 +14,6 @@ import Modal from "react-modal";
 import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 
-
 Modal.setAppElement("#root");
 
 export default function Property() {
@@ -52,6 +51,55 @@ export default function Property() {
         setModalIsOpen(false);
     };
 
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this property?");
+        if (!confirmDelete) return;
+        try {
+            await axios.delete(`http://localhost:5000/properties/${id}`);
+            alert("Property deleted successfully");
+            navigate("/properties");
+        } catch (error) {
+            console.error("Delete failed:", error);
+            alert("Failed to delete property");
+        }
+    };
+
+    const [soldForm, setSoldForm] = useState({
+        buyerName: "",
+        sellerName: "",
+        commission: "",
+        soldByUs: false, 
+        soldAt: "", 
+    });
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setSoldForm((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const markAsSold = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`${baseURL}/properties/mark-sold`, {
+                ...soldForm,
+                soldout: true,
+                id
+            });
+            alert("Property marked as sold!");
+            setOpenDialog(false);
+            window.location.reload();
+        } catch (error) {
+            console.error("Error marking as sold:", error);
+            alert("Failed to mark property as sold.");
+        }
+    };
+
+
+
     if (loading) return <div className="text-center my-10">Loading...</div>;
     if (!property) return <div className="text-center my-10">Property not found</div>;
 
@@ -66,7 +114,7 @@ export default function Property() {
                 {/* Mobile Swiper */}
                 <div className=" block md:hidden">
                     <Swiper modules={[Navigation, Pagination]} navigation pagination={{ clickable: true }}>
-                        {property.media.map((item, index) => (
+                        {property?.media?.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div
                                     onClick={() => openModal(index)}
@@ -99,7 +147,7 @@ export default function Property() {
                         }}
                         className="w-full"
                     >
-                        {property.media.map((item, index) => (
+                        {property?.media?.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div
                                     onClick={() => openModal(index)}
@@ -133,7 +181,7 @@ export default function Property() {
                         initialSlide={startIndex}
                         className="w-full h-full"
                     >
-                        {property.media.map((item, index) => (
+                        {property?.media?.map((item, index) => (
                             <SwiperSlide key={index} className="flex items-center justify-center bg-black">
                                 {item.type === "image" ? (
                                     <img
@@ -151,9 +199,10 @@ export default function Property() {
                     </Swiper>
                 </Modal>
 
-                {/* details  */}
+                {/* details in rows  */}
                 <div className=" grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-[10px]  my-[20px]" >
                     <div className="flex items-center justify-center gap-[5px] border-x-2  border-[#1E1E1F] py-[20px]">
+
                         <MdHome className="text-[30px]" />
                         <p className="pp">
                             For {property.type.charAt(0).toUpperCase() + property.type.slice(1)}
@@ -197,16 +246,14 @@ export default function Property() {
                         </p>
                     </div>
                 </div>
-
-                {/* Available */}
-                <p className="inline mr-[5px]">Status:</p>
-                <p className={`text-md inline  font-semibold ${property.status == "sold" ? 'text-red-600' : 'text-green-600'}`}
-                >{property.status == "sold" ? 'Sold Out' : 'Available'}</p>
-
-
-                {/* details  */}
+                {/* details in para */}
                 <div className=" mt-[10px]" >
-
+                    {property.soldout == true && (
+                        <p className="text-[red]">Soldout</p>
+                    )}
+                    {property.soldout == false && (
+                        <p className="text-[green]">Available</p>
+                    )}
                     <h3 className="text-2xl font-bold mb-2">
                         {property.measurement} {property.measurement > 1
                             ? property.unit === "marla"
@@ -237,19 +284,13 @@ export default function Property() {
                     <h2 className="text-xl font-semibold mt-2">Description</h2>
                     <p >{property.description}</p>
                 </div>
-                
-                {property.status === "available" && (
-                    <div className="flex gap-[5px] mt-[20px]">
-                        <button className="btn3">Edit the Property</button>
-                        <button className="btn3">Mark as Sold</button>
-                    </div>
-                )}
+
                 {/* Only show these if the property is sold */}
-                {property.status === "sold" && (
+                {property.soldout == true && (
 
                     <div className="space-y-[5px]">
-                        <p className="pp mt-[20px] text-[30px]">Deal Information:</p>
 
+                        <p className="pp mt-[20px] text-[30px]">Deal Information:</p>
                         <div className="flex gap-[5px]   ">
                             <p className="pp">
                                 <span className="font-semibold">Sold At:</span>{" "}
@@ -266,19 +307,117 @@ export default function Property() {
                             <p className="pp"><span className="font-semibold">Sold By Us:</span> {property.soldByUs ? "Yes" : "No"}</p>
                         </div>
 
-                        <div className="flex gap-[5px]   ">
-                            <p className="pp"><span className="font-semibold">Buyer:</span> {property.buyerName || "N/A"}</p>
-                        </div>
+                        {property.soldByUs == true && (
+                            <>
+                                <div className="flex gap-[5px]   ">
+                                    <p className="pp"><span className="font-semibold">Buyer:</span> {property.buyerName || "N/A"}</p>
+                                </div>
 
-                        <div className="flex gap-[5px]   ">
-                            <p className="pp"><span className="font-semibold">Seller:</span> {property.sellerName || "N/A"}</p>
-                        </div>
+                                <div className="flex gap-[5px]   ">
+                                    <p className="pp"><span className="font-semibold">Seller:</span> {property.sellerName || "N/A"}</p>
+                                </div>
 
-                        <div className="flex gap-[5px]   ">
-                            <p className="pp"><span className="font-semibold">Commission:</span> PKR {property.commission || 0}</p>
-                        </div>
+                                <div className="flex gap-[5px]   ">
+                                    <p className="pp"><span className="font-semibold">Commission:</span> PKR {property.commission || 0}</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
+
+
+                {property.soldout == false && (
+                    <div className="flex gap-[5px] mt-[20px]">
+                        <button className="btn3"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
+                        {/* <button className="btn3">Mark as Sold</button> */}
+                        <button className="btn3" onClick={() => setOpenDialog(true)}>Mark as Sold</button>
+
+                    </div>
+                )}
+                {property.soldout == true && (
+                    <div className=" mt-[20px]">
+                        <button className="btn3 !w-full"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
+                    </div>
+                )}
+                <button onClick={handleDelete} className="btn3 !bg-red-600 hover:!bg-red-700 !w-full mt-[5px]">Delete Property</button>
+                <Modal
+                    isOpen={openDialog}
+                    onRequestClose={() => setOpenDialog(false)}
+                    contentLabel="Mark as Sold"
+                    className="bg-white p-6 max-w-lg w-full mx-auto mt-20 rounded shadow-md relative z-[1000]"
+                    overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-[999]"
+                >
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Mark as Sold</h2>
+                        <button onClick={() => setOpenDialog(false)}>
+                            <RxCross1 />
+                        </button>
+                    </div>
+
+                    <form onSubmit={markAsSold} className="space-y-4">
+                        <label className="flex items-center gap-2">
+                            Sold By Us
+                            <input
+                                type="checkbox"
+                                name="soldByUs"
+                                className="w-[20px]"
+                                checked={soldForm.soldByUs}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+
+                        <input
+                            type="date"
+                            name="soldAt"
+                            value={soldForm.soldAt}
+                            onChange={handleInputChange}
+                            className="w-full border p-2 rounded"
+                            required
+                        />
+
+                        {soldForm.soldByUs == true && (
+                            <div>
+                                <input
+                                    type="text"
+                                    name="buyerName"
+                                    placeholder="Buyer Name"
+                                    value={soldForm.buyerName}
+                                    onChange={handleInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    name="sellerName"
+                                    placeholder="Seller Name"
+                                    value={soldForm.sellerName}
+                                    onChange={handleInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+
+                                <input
+                                    type="number"
+                                    name="commission"
+                                    placeholder="Commission Amount"
+                                    value={soldForm.commission}
+                                    onChange={handleInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                            </div>
+                        )}
+
+                        <button
+                            type="submit"
+                            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
+                        >
+                            Confirm Mark as Sold
+                        </button>
+                    </form>
+
+                </Modal>
+
             </section>
         </div>
     );
