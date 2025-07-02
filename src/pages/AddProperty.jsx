@@ -120,7 +120,7 @@ const PropertyForm = ({ onSubmit }) => {
         } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
     >
       <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg">
-        <h1 className="text-[40px] font-semibold">Add Property</h1>
+        <h1 className="text-[30px] md:text-[40px] font-semibold">Add Property</h1>
 
         <input
           type="number"

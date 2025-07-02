@@ -45,6 +45,7 @@ const Login = () => {
             })
           );
           localStorage.setItem("token", data.token);
+          localStorage.setItem("id",data.user.id)
           alert("Login Successful");
           navigate("/");
         } else {

@@ -5,96 +5,90 @@ import { IoIosHome } from "react-icons/io";
 import { TbHomeEco } from "react-icons/tb";
 import { FaHandshake } from "react-icons/fa";
 import { BsCashCoin } from "react-icons/bs";
-
-
+import axios from "axios";
 
 export default function Dashboard() {
-    const toggle = useSelector((state) => state.toggle.value);
-  const [filter, setFilter] = useState("year"); // Options: year, month, week
+  const toggle = useSelector((state) => state.toggle.value);
+  const [filter, setFilter] = useState("year");
   const [chartData, setChartData] = useState([]);
 
-  const saleProperties = 245;
-  const rentProperties = 130;
-  const dealsDone = 78;
-  const totalProfit = 55;
+  const [soldPropertiesByUs, setSoldPropertiesByUs] = useState(0);
+  const [rentedPropertiesByUs, setRentedPropertiesByUs] = useState(0);
+  const [totalSoldDeals, setTotalSoldDeals] = useState(0);
+  const [totalRentedDeals, setTotalRentedDeals] = useState(0);
+  const [totalDeals, setTotalDeals] = useState(0);
+  const [totalCommission, setTotalCommission] = useState(0);
 
   useEffect(() => {
-    const generateDummyChartData = () => {
-      if (filter === "year") {
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        return monthNames.map((month) => ({
-          name: month,
-          count: Math.floor(Math.random() * 20) + 5
-        }));
-      } else if (filter === "month") {
-        return Array.from({ length: 30 }, (_, i) => ({
-          name: `${i + 1}`,
-          count: Math.floor(Math.random() * 5) + 1
-        }));
-      } else {
-        const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        return weekDays.map((day) => ({
-          name: day,
-          count: Math.floor(Math.random() * 10) + 2
-        }));
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/stats");
+        setSoldPropertiesByUs(res.data.soldPropertiesByUs);
+        setRentedPropertiesByUs(res.data.rentedPropertiesByUs);
+        setTotalSoldDeals(res.data.totalSoldDeals);
+        setTotalRentedDeals(res.data.totalRentedDeals);
+        setTotalDeals(res.data.totalDeals);
+        setTotalCommission(res.data.totalCommission);
+      } catch (err) {
+        console.error("Error fetching stats:", err);
       }
     };
 
-    setChartData(generateDummyChartData());
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
+    const fetchChartData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/time-stats?filter=${filter}`);
+        setChartData(res.data);
+      } catch (err) {
+        console.error("Error fetching chart data:", err);
+      }
+    };
+
+    fetchChartData();
   }, [filter]);
 
   return (
-    <div
-      className={`${toggle === false
-        ? "w-full"
-        : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
-        } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6 `}
-    >
-      <h1 className='text-[40px] font-semibold color '>Dashboard</h1>
+    <div className={`${toggle === false ? "w-full" : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"} duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}>
+      <h1 className='text-[30px] md:text-[40px] font-semibold color '>Dashboard</h1>
 
       {/* Summary Cards */}
       <div className='grid grid-cols-2 lg:grid-cols-4 gap-1'>
-        <Card icon={<IoIosHome className='text-5xl' />} title="Sale Properties" count={saleProperties} />
-        <Card icon={<TbHomeEco className='text-5xl' />} title="Rent Properties" count={rentProperties} />
-        <Card icon={<FaHandshake className='text-5xl' />} title="Deals Done" count={dealsDone} />
-        <Card icon={<BsCashCoin className='text-5xl' />} title="Total Profit" count={totalProfit} />
+        <Card icon={<IoIosHome className='text-5xl' />} title="Sale Properties" count={soldPropertiesByUs} />
+        <Card icon={<TbHomeEco className='text-5xl' />} title="Rent Properties" count={rentedPropertiesByUs} />
+        <Card icon={<FaHandshake className='text-5xl' />} title="Deals Done" count={totalDeals} />
+        <Card icon={<BsCashCoin className='text-5xl' />} title="Total Profit" count={totalCommission} />
       </div>
 
       {/* Chart */}
-      <div className="my-12">
+      <div className="my-12 ">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-2xl font-semibold text-[#1e1e1f]">Listings Overview</h2>
-          {/* select */}
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="border border-[#1e1e1f] text-[#1e1e1f] rounded px-3 py-1 focus:outline-none"
+            className="border w-[100px] border-[#1e1e1f] text-[#1e1e1f] rounded px-3 py-1 focus:outline-none"
           >
             <option value="year">Year</option>
             <option value="month">Month</option>
             <option value="week">Week</option>
           </select>
         </div>
-        <ResponsiveContainer height={400} width="100%">
+        <div className='overflow-x-scroll '>
+          <ResponsiveContainer height={400} width="100%" className=" !min-w-[700px] ">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="count"
-              stroke="#1e1e1f"
-              strokeWidth={2}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
-              isAnimationActive={true}
-              animationBegin={300}
-              animationDuration={800}
-              animationEasing="ease-in-out"
-            />
+            <Line type="monotone" dataKey="sold" stroke="#1e90ff" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Sold" />
+            <Line type="monotone" dataKey="rented" stroke="#28a745" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Rented" />
           </LineChart>
         </ResponsiveContainer>
+        </div>
+        
       </div>
     </div>
   );
@@ -108,7 +102,7 @@ const Card = ({ icon, title, count }) => (
     </div>
     <div>
       <p className='text-lg font-medium group-hover:text-white'>{title}</p>
-      <p className='text-xl font-bold text-[#1e1e1f] group-hover:text-white'>{count}+</p>
+      <p className='text-xl font-bold text-[#1e1e1f] group-hover:text-white'>{count}</p>
     </div>
   </div>
 );

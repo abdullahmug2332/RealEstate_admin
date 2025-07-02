@@ -15,7 +15,7 @@ p{
 p,h1,h2,h3,h4,h5,h6{
     color:#1e1e1f;
 }
-input, textarea{
+input, textarea ,select{
     @apply my-[5px] border px-[10px] w-[100%] py-[10px] rounded-[5px] 
 }
 .input{

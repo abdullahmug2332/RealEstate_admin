@@ -4,7 +4,7 @@ import { FaBed } from "react-icons/fa6";
 import { FaBath } from "react-icons/fa";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import {baseURL} from "../../API/baseURL"
+import { baseURL } from "../../API/baseURL"
 
 
 export default function Card(props) {
@@ -31,14 +31,15 @@ export default function Card(props) {
         />
         <div className="p-4 bg-white min-h-[150px]  flex flex-col relative">
           <p
-            className={`text-md absolute top-3 right-3 font-semibold ${props.soldout ? 'text-red-600' : 'text-green-600'
+            className={`text-md absolute top-3 right-3 font-semibold ${props.soldout || props.rentedOut ? 'text-red-600' : 'text-green-600'
               }`}
           >
-            {props.soldout ? 'Sold Out' : 'Available'}
+            {props.soldout || props.rentedOut ? 'Not Available' : 'Available'}
           </p>
+
           <p className="text-xl font-semibold text-[#2C2C2C]  ">PKR {formatPrice(props.price)}</p>
           <p className="text-sm  mt-1 text-[#2C2C2C] ">{props.location}</p>
-          <p className="text-sm text-[#2C2C2C] ">{props.measurement} {props.unit} <TbRulerMeasure2 className='inline' /> | {props.bed} <FaBed className='inline text-[13px]' /> | {props.bath} <FaBath className='inline text-[13px]' /></p>
+          <p className="text-sm text-[#2C2C2C] ">{props.measurement} {props.unit} <TbRulerMeasure2 className='inline' /> | {props.rooms} <FaBed className='inline text-[13px]' /> | {props.bath} <FaBath className='inline text-[13px]' /></p>
           <p className="text-[13px] mt-2 ">
             {props.description.length > 100
               ? props.description.slice(0, 100) + "..."

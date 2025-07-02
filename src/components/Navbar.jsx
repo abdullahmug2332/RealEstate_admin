@@ -40,7 +40,6 @@ export default function Navbar() {
           </div>
           <div className="flex items-center gap-[10px] md:gap-[40px]">
             <div className="flex items-center gap-[5px]">
-              <FaBell className="text-[25px] mr-[20px] hover:scale-[1.06] duration-300 cursor-pointer" />
               <div className="flex items-center gap-[5px] hover:scale-[1.06] duration-300 cursor-pointer">
                 <IoCall className="hidden sm:block" />
                 <p className="text-[12px] md:text-[15px] text-white font-semibold hidden sm:block">

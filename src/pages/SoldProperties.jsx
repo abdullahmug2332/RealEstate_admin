@@ -41,7 +41,7 @@ export default function SoldProperties() {
                 ? "w-full"
                 : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"} duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
         >
-            <h1 className='text-[40px] font-semibold mb-4'>Sold Properties</h1>
+            <h1 className='text-[30px] md:text-[40px] font-semibold mb-4'>Sold Properties</h1>
 
             {/* Filter Dropdown */}
             <select

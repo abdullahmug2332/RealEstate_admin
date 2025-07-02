@@ -11,6 +11,8 @@ import AddProperty from "./pages/AddProperty";
 import SoldProperties from "./pages/SoldProperties";
 import Property from "./components/Property";
 import EditProperty from "./pages/EditProperty";
+import RentedProperties from "./pages/RentedProperties";
+import Users from "./pages/Users";
 
 const App = () => {
   return (
@@ -20,10 +22,12 @@ const App = () => {
         <Route path="/auth" element={<Auth />} />
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/addproperty" element={<AddProperty />} />
           <Route path="/editproperty/:id" element={<EditProperty/>} />
           <Route path="/soldproperties" element={<SoldProperties />} />
+          <Route path="/rentedproperties" element={<RentedProperties />} />
           <Route path="/property/:id" element={<Property />} />
 
         </Route>

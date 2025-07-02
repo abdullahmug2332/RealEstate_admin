@@ -68,8 +68,9 @@ export default function Property() {
         buyerName: "",
         sellerName: "",
         commission: "",
-        soldByUs: false, 
-        soldAt: "", 
+        soldByUs: false,
+        soldAt: "",
+        soldAmount: "",
     });
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -95,6 +96,43 @@ export default function Property() {
         } catch (error) {
             console.error("Error marking as sold:", error);
             alert("Failed to mark property as sold.");
+        }
+    };
+
+
+    const [rentForm, setRentForm] = useState({
+        tenantName: "",
+        landlordName: "",
+        commission: "",
+        rentedByUs: false,
+        rentedAt: "",
+        rentAmount: "",
+    });
+
+    const [openRentDialog, setOpenRentDialog] = useState(false);
+
+    const handleRentInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setRentForm((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const markAsRented = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`${baseURL}/properties/mark-rented`, {
+                ...rentForm,
+                rentedOut: true,
+                id,
+            });
+            alert("Property marked as rented!");
+            setOpenRentDialog(false);
+            window.location.reload();
+        } catch (error) {
+            console.error("Error marking as rented:", error);
+            alert("Failed to mark property as rented.");
         }
     };
 
@@ -248,12 +286,12 @@ export default function Property() {
                 </div>
                 {/* details in para */}
                 <div className=" mt-[10px]" >
-                    {property.soldout == true && (
-                        <p className="text-[red]">Soldout</p>
+                    {property.soldout == false && property.rentedOut == false ? (
+                        <p className="text-green-600 font-semibold">Available</p>
+                    ) : (
+                        <p className="text-red-600 font-semibold">Not Available</p>
                     )}
-                    {property.soldout == false && (
-                        <p className="text-[green]">Available</p>
-                    )}
+
                     <h3 className="text-2xl font-bold mb-2">
                         {property.measurement} {property.measurement > 1
                             ? property.unit === "marla"
@@ -285,11 +323,9 @@ export default function Property() {
                     <p >{property.description}</p>
                 </div>
 
-                {/* Only show these if the property is sold */}
-                {property.soldout == true && (
-
+                {/* Sold info */}
+                {property.type == "sale" && property.soldout == true && (
                     <div className="space-y-[5px]">
-
                         <p className="pp mt-[20px] text-[30px]">Deal Information:</p>
                         <div className="flex gap-[5px]   ">
                             <p className="pp">
@@ -300,9 +336,7 @@ export default function Property() {
                                     year: "numeric"
                                 })}
                             </p>
-
                         </div>
-
                         <div className="flex gap-[5px]   ">
                             <p className="pp"><span className="font-semibold">Sold By Us:</span> {property.soldByUs ? "Yes" : "No"}</p>
                         </div>
@@ -316,7 +350,9 @@ export default function Property() {
                                 <div className="flex gap-[5px]   ">
                                     <p className="pp"><span className="font-semibold">Seller:</span> {property.sellerName || "N/A"}</p>
                                 </div>
-
+                                <div className="flex gap-[5px]   ">
+                                    <p className="pp"><span className="font-semibold">Sold Price:</span> PKR {property.soldAmount || 0}</p>
+                                </div>
                                 <div className="flex gap-[5px]   ">
                                     <p className="pp"><span className="font-semibold">Commission:</span> PKR {property.commission || 0}</p>
                                 </div>
@@ -325,21 +361,77 @@ export default function Property() {
                     </div>
                 )}
 
+                {/* Rental Info */}
+                {property.type == "rent" && property.rentedOut == true && (
+                    <div className="space-y-[5px] mt-[20px]">
+                        <p className="pp text-[30px]">Rent Information:</p>
 
-                {property.soldout == false && (
-                    <div className="flex gap-[5px] mt-[20px]">
-                        <button className="btn3"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
-                        {/* <button className="btn3">Mark as Sold</button> */}
-                        <button className="btn3" onClick={() => setOpenDialog(true)}>Mark as Sold</button>
+                        <div className="flex gap-[5px]">
+                            <p className="pp">
+                                <span className="font-semibold">Rented At:</span>{" "}
+                                {property.rentedAt
+                                    ? new Date(property.rentedAt).toLocaleDateString("en-GB", {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                    })
+                                    : "N/A"}
+                            </p>
+                        </div>
 
+                        <div className="flex flex-col gap-[5px]">
+                            <p className="pp">
+                                <span className="font-semibold">Rented By Us:</span>{" "}
+                                {property.rentedByUs ? "Yes" : "No"}
+                            </p>
+
+
+                        </div>
+
+                        {property.rentedByUs == true && (
+                            <>
+                                <div className="flex gap-[5px]">
+                                    <p className="pp">
+                                        <span className="font-semibold">Tenant:</span>{" "}
+                                        {property.tenantName || "N/A"}
+                                    </p>
+                                </div>
+                                <div className="flex gap-[5px]">
+                                    <p className="pp">
+                                        <span className="font-semibold">Landlord:</span>{" "}
+                                        {property.landlordName || "N/A"}
+                                    </p>
+                                </div>
+                                <p className="pp">
+                                    <span className="font-semibold">Rent Amount:</span> PKR{" "}
+                                    {property.rentAmount || 0}
+                                </p>
+                                <div className="flex gap-[5px]">
+                                    <div className="flex gap-[5px]   ">
+                                        <p className="pp"><span className="font-semibold">Commission:</span> PKR {property.commission || 0}</p>
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
-                {property.soldout == true && (
-                    <div className=" mt-[20px]">
-                        <button className="btn3 !w-full"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
-                    </div>
+
+                <br />
+
+                {/* Button  */}
+                {property.type == "sale" && property.soldout == false && (
+                    <button className="btn3  !w-full !bg-[green]" onClick={() => setOpenDialog(true)}>Mark as Sold</button>
                 )}
+
+                {property.type == "rent" && property.rentedOut == false && (
+                    <button className="btn3 !w-full !bg-[green]" onClick={() => setOpenRentDialog(true)}>Mark as Rented</button>
+                )}
+                <div className="mt-[5px]">
+                    <button className="btn3 !w-full"><Link to={`/editproperty/${property.id}`}>Edit the Property</Link></button>
+                </div>
                 <button onClick={handleDelete} className="btn3 !bg-red-600 hover:!bg-red-700 !w-full mt-[5px]">Delete Property</button>
+
+                {/* Sale Form Modal  */}
                 <Modal
                     isOpen={openDialog}
                     onRequestClose={() => setOpenDialog(false)}
@@ -395,7 +487,15 @@ export default function Property() {
                                     className="w-full border p-2 rounded"
                                     required
                                 />
-
+                                <input
+                                    type="number"
+                                    name="soldAmount"
+                                    placeholder="Sold Amount"
+                                    value={soldForm.soldAmount}
+                                    onChange={handleInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
                                 <input
                                     type="number"
                                     name="commission"
@@ -405,18 +505,106 @@ export default function Property() {
                                     className="w-full border p-2 rounded"
                                     required
                                 />
+
                             </div>
                         )}
 
                         <button
                             type="submit"
-                            className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
+                            className="w-full bg-[#1E1E1F] text-white py-2 px-4 rounded"
                         >
                             Confirm Mark as Sold
                         </button>
                     </form>
 
                 </Modal>
+
+                {/* Rent Form Modal  */}
+                <Modal
+                    isOpen={openRentDialog}
+                    onRequestClose={() => setOpenRentDialog(false)}
+                    contentLabel="Mark as Rented"
+                    className="bg-white p-6 max-w-lg w-full mx-auto mt-20 rounded shadow-md relative z-[1000]"
+                    overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-[999]"
+                >
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Mark as Rented</h2>
+                        <button onClick={() => setOpenRentDialog(false)}>
+                            <RxCross1 />
+                        </button>
+                    </div>
+
+                    <form onSubmit={markAsRented} className="space-y-4">
+                        <label className="flex items-center gap-2">
+                            Rented By Us
+                            <input
+                                type="checkbox"
+                                name="rentedByUs"
+                                className="w-[20px]"
+                                checked={rentForm.rentedByUs}
+                                onChange={handleRentInputChange}
+                            />
+                        </label>
+
+                        <input
+                            type="date"
+                            name="rentedAt"
+                            value={rentForm.rentedAt}
+                            onChange={handleRentInputChange}
+                            className="w-full border p-2 rounded"
+                            required
+                        />
+
+                        {rentForm.rentedByUs === true && (
+                            <>
+                                <input
+                                    type="text"
+                                    name="tenantName"
+                                    placeholder="Tenant Name"
+                                    value={rentForm.tenantName}
+                                    onChange={handleRentInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    name="landlordName"
+                                    placeholder="Landlord Name"
+                                    value={rentForm.landlordName}
+                                    onChange={handleRentInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    name="rentAmount"
+                                    placeholder="Rent Amount"
+                                    value={rentForm.rentAmount}
+                                    onChange={handleRentInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    name="commission"
+                                    placeholder="Commission"
+                                    value={rentForm.commission}
+                                    onChange={handleRentInputChange}
+                                    className="w-full border p-2 rounded"
+                                    required
+                                />
+                            </>
+                        )}
+
+                        <button
+                            type="submit"
+                            className="w-full bg-[#1E1E1F] text-white py-2 px-4 rounded"
+                        >
+                            Confirm Mark as Rented
+                        </button>
+                    </form>
+                </Modal>
+
 
             </section>
         </div>
