@@ -43,3 +43,31 @@ textarea{
 .btn3{
    @apply bg-[#1E1E1F] text-white text-[20px] w-[50%] py-[10px]
 }
+.swiper-button-prev:after{
+    color: white; 
+    background-color: rgba(0, 0, 0, 0.658);
+    font-size: 30px !important;
+    padding-left: 15px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 50%;
+    position: relative;
+    left: 10px;
+ }
+ .swiper-button-next:after{
+    color: white; 
+    background-color: rgba(0, 0, 0, 0.658);
+    font-size: 30px !important;
+    padding-left: 20px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 50%;
+    position: relative;
+    right   : 10px;
+ }
+ 
+.swiper-pagination-bullet-active{
+    background-color: black !important;
+}
