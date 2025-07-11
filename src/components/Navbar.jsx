@@ -43,7 +43,7 @@ export default function Navbar() {
               <div className="flex items-center gap-[5px] hover:scale-[1.06] duration-300 cursor-pointer">
                 <IoCall className="hidden sm:block" />
                 <p className="text-[12px] md:text-[15px] text-white font-semibold hidden sm:block">
-                  +92 324 4412292
+                  +92 325 8257153
                 </p>
               </div>
               <button
