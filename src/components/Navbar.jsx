@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleValue } from "../redux/toggleSlice";
 import { FiAlignLeft } from "react-icons/fi";
 import { IoCall } from "react-icons/io5";
-import { FaBell } from "react-icons/fa";
 import "../App.css";
 import { useLocation, useNavigate } from "react-router-dom";
 

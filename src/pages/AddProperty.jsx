@@ -110,13 +110,20 @@ const PropertyForm = ({ onSubmit }) => {
       alert("An error occurred while adding the property.");
     }
   };
+  const removeMedia = (indexToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      media: prev.media.filter((_, index) => index !== indexToRemove),
+    }));
+  };
+
 
 
   return (
     <div
       className={`${toggle === false
-          ? "w-full"
-          : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
+        ? "w-full"
+        : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
         } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
     >
       <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg">
@@ -222,24 +229,34 @@ const PropertyForm = ({ onSubmit }) => {
         />
 
         <div className="flex gap-4 flex-wrap">
-          {formData.media.map((item, index) =>
-            item.type === "image" ? (
-              <img
-                key={index}
-                src={item.src}
-                alt="preview"
-                className="w-24 h-24 object-cover rounded-[2px]"
-              />
-            ) : item.type === "video" ? (
-              <video
-                key={index}
-                src={item.src}
-                controls
-                className="w-24 h-24 object-cover rounded-[2px]"
-              />
-            ) : null
-          )}
+          {formData.media.map((item, index) => (
+            <div key={index} className="relative w-24 h-24">
+              <button
+                type="button"
+                onClick={() => removeMedia(index)}
+                className="absolute top-[-6px] right-[-6px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs z-10"
+                title="Remove"
+              >
+                ×
+              </button>
+
+              {item.type === "image" ? (
+                <img
+                  src={item.src}
+                  alt="preview"
+                  className="w-full h-full object-cover rounded-[2px]"
+                />
+              ) : item.type === "video" ? (
+                <video
+                  src={item.src}
+                  controls
+                  className="w-full h-full object-cover rounded-[2px]"
+                />
+              ) : null}
+            </div>
+          ))}
         </div>
+
 
         <button type="submit" className="btn">
           Submit

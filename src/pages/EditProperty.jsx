@@ -380,9 +380,9 @@ const EditProperty = () => {
               <button
                 type="button"
                 onClick={() => removeOldMedia(i)}
-                className="absolute top-0 right-0 bg-red-500 text-white"
+                className="absolute top-[-6px] right-[-6px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs z-10"
               >
-                X
+                x
               </button>
             </div>
           ))}
@@ -396,9 +396,9 @@ const EditProperty = () => {
               <button
                 type="button"
                 onClick={() => removeNewMedia(i)}
-                className="absolute top-0 right-0 bg-red-500 text-white"
+                className="absolute top-[-6px] right-[-6px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs z-10"
               >
-                X
+                x
               </button>
             </div>
           ))}
