@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { baseURL } from "../../API/baseURL";
 
 const EditProperty = () => {
   const toggle = useSelector((state) => state.toggle.value);
@@ -41,7 +42,7 @@ const EditProperty = () => {
 
   useEffect(() => {
     const fetchProperty = async () => {
-      const res = await fetch(`http://localhost:5000/properties/${id}`);
+      const res = await fetch(`${baseURL}/properties/${id}`);
       const data = await res.json();
 
       // Convert string/number boolean fields to actual booleans if needed
@@ -80,7 +81,7 @@ const EditProperty = () => {
     newMedia.forEach((m) => payload.append("media", m.file));
     payload.append("oldMedia", JSON.stringify(formData.media));
     try {
-      const res = await fetch(`http://localhost:5000/properties/${id}`, {
+      const res = await fetch(`${baseURL}/properties/${id}`, {
         method: "PUT",
         body: payload,
       });
@@ -366,13 +367,13 @@ const EditProperty = () => {
             <div key={i} className="relative">
               {m.type === "image" ? (
                 <img
-                  src={`http://localhost:5000/images/${m.src}`}
+                  src={`${baseURL}/images/${m.src}`}
                   className="w-24 h-24"
                   alt=""
                 />
               ) : (
                 <video
-                  src={`http://localhost:5000/images/${m.src}`}
+                  src={`${baseURL}/images/${m.src}`}
                   className="w-24 h-24"
                   controls
                 />

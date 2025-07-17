@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { baseURL } from "../../API/baseURL";
 
 
 export default function Users() {
@@ -18,7 +19,7 @@ export default function Users() {
     // Fetch all users
     const fetchUsers = () => {
         axios
-            .get("http://localhost:5000/users")
+            .get(`${baseURL}/users`)
             .then((res) => setUsers(res.data))
             .catch((err) => console.error("Error fetching users:", err));
     };
@@ -50,7 +51,7 @@ export default function Users() {
         }
 
         axios
-            .post("http://localhost:5000/users", formData)
+            .post(`${baseURL}/users`, formData)
             .then((res) => {
                 alert("User created successfully")
                 setMessage(res.data.message); // shows "User created successfully"
@@ -80,7 +81,7 @@ export default function Users() {
         if (!confirmDelete) return;
 
         axios
-            .delete(`http://localhost:5000/users/${id}`)
+            .delete(`${baseURL}/users/${id}`)
             .then((res) => {
                 setMessage(res.data.message);
                 fetchUsers();

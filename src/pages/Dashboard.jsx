@@ -6,6 +6,7 @@ import { TbHomeEco } from "react-icons/tb";
 import { FaHandshake } from "react-icons/fa";
 import { BsCashCoin } from "react-icons/bs";
 import axios from "axios";
+import { baseURL } from '../../API/baseURL';
 
 export default function Dashboard() {
   const toggle = useSelector((state) => state.toggle.value);
@@ -22,7 +23,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/stats");
+        const res = await axios.get(`${baseURL}/stats`);
         setSoldPropertiesByUs(res.data.soldPropertiesByUs);
         setRentedPropertiesByUs(res.data.rentedPropertiesByUs);
         setTotalSoldDeals(res.data.totalSoldDeals);
@@ -40,7 +41,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/time-stats?filter=${filter}`);
+        const res = await axios.get(`${baseURL}/time-stats?filter=${filter}`);
         setChartData(res.data);
       } catch (err) {
         console.error("Error fetching chart data:", err);

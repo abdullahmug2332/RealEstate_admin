@@ -31,7 +31,7 @@ export default function Property() {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/properties/${id}`);
+                const res = await axios.get(`${baseURL}/properties/${id}`);
                 setProperty(res.data);
             } catch (error) {
                 console.error("Error fetching property:", error);
@@ -55,7 +55,7 @@ export default function Property() {
         const confirmDelete = window.confirm("Are you sure you want to delete this property?");
         if (!confirmDelete) return;
         try {
-            await axios.delete(`http://localhost:5000/properties/${id}`);
+            await axios.delete(`${baseURL}/properties/${id}`);
             alert("Property deleted successfully");
             navigate("/properties");
         } catch (error) {
@@ -306,11 +306,6 @@ export default function Property() {
                     <h3 className="text-2xl font-bold mb-2">
                         PKR : {property?.price}
                     </h3>
-
-                    <p >
-                        Looking for a well-designed home in a prime area like {property.location}? This {property.measurement}{" "}
-                        {property.unit} property is ideal for affordability, style, and comfort.
-                    </p>
 
                     <ul className="space-y-2">
                         <li><span className="font-semibold">Rooms:</span> {property.rooms} {property.rooms > 1 ? "Rooms" : "Room"} </li>

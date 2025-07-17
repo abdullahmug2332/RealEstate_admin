@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Card from "../components/Card";
+import { baseURL } from "../../API/baseURL";
 
 export default function RentedProperties() {
   const toggle = useSelector((state) => state.toggle.value);
@@ -13,7 +14,7 @@ export default function RentedProperties() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     axios
-      .get("http://localhost:5000/properties")
+      .get(`${baseURL}/properties`)
       .then((res) => {
         const rentedProperties = res.data.filter(
           (property) => property.rentedOut === 1 || property.rentedOut === true

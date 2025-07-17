@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import Card from '../components/Card';
 import axios from "axios";
+import { baseURL } from '../../API/baseURL';
 
 export default function Properties() {
     const toggle = useSelector((state) => state.toggle.value);
@@ -23,7 +24,7 @@ export default function Properties() {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        axios.get("http://localhost:5000/properties")
+        axios.get(`${baseURL}/properties`)
             .then(res => {
                 const availableProperties = res.data.filter(
                     (property) => property.soldout == false && property.rentedOut == false

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Card from '../components/Card';
+import { baseURL } from '../../API/baseURL';
 
 export default function SoldProperties() {
     const toggle = useSelector((state) => state.toggle.value);
@@ -12,7 +13,7 @@ export default function SoldProperties() {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        axios.get("http://localhost:5000/properties")
+        axios.get(`${baseURL}/properties`)
             .then(res => {
                 const soldProperties = res.data.filter(
                     (property) => property.soldout === 1 || property.soldout === true

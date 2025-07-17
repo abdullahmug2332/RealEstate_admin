@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../API/baseURL";
 
 
 const PropertyForm = ({ onSubmit }) => {
@@ -76,7 +77,7 @@ const PropertyForm = ({ onSubmit }) => {
     formPayload.append("soldAt", "");
 
     try {
-      const response = await fetch("http://localhost:5000/properties", {
+      const response = await fetch(`${baseURL}/properties`, {
         method: "POST",
         body: formPayload,
       });
