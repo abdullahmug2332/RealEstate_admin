@@ -84,8 +84,8 @@ export default function Dashboard() {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="sold" stroke="#1e90ff" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Sold" />
-            <Line type="monotone" dataKey="rented" stroke="#28a745" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Rented" />
+            <Line type="monotone" dataKey="sold" stroke="#aa1111" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Sold" />
+            <Line type="monotone" dataKey="rented" stroke="#06665a" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} name="Rented" />
           </LineChart>
         </ResponsiveContainer>
         </div>
