@@ -135,7 +135,22 @@ export default function Property() {
             alert("Failed to mark property as rented.");
         }
     };
+    function formatPrice(price) {
+        const num = parseInt(price, 10);
+        return num.toLocaleString("en-PK"); // or use "en-US"
+    }
 
+    function formatPriceinWord(price) {
+        const num = parseInt(price, 10);
+
+        if (num >= 10000000) {
+            return (num / 10000000).toFixed(2) + " Crore";
+        } else if (num >= 100000) {
+            return (num / 100000).toFixed(2) + " Lac";
+        } else {
+            return num.toLocaleString();
+        }
+    }
 
 
     if (loading) return <div className="text-center my-10">Loading...</div>;
@@ -208,10 +223,10 @@ export default function Property() {
                 <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
-                    overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
-                    className="outline-none w-full max-w-[90%] h-[90vh] relative"
+                    overlayClassName="fixed inset-0 bg-black bg-opacity-90 z-[999] flex items-center justify-center"
+                    className="outline-none w-full max-w-[100%]  relative "
                 >
-                    <button onClick={closeModal} className="absolute top-10 right-4 text-white text-3xl z-50 text-[30px]"><RxCross1 className="text-white text-3xl z-50 text-[30px]" /></button>
+                    <button onClick={closeModal} className="absolute top-[40px] md:top-4 right-5 text-white bg-[black]  z-50 text-[30px] border-[2px] border-white p-[5px] rounded-full font-bold over"><RxCross1 className="text-white  z-50 text-[20px] font-bold  " /></button>
                     <Swiper
                         modules={[Navigation, Pagination]}
                         navigation
@@ -219,16 +234,16 @@ export default function Property() {
                         initialSlide={startIndex}
                         className="w-full h-full"
                     >
-                        {property?.media?.map((item, index) => (
-                            <SwiperSlide key={index} className="flex items-center justify-center bg-black">
+                        {property.media.map((item, index) => (
+                            <SwiperSlide key={index} className="!flex !items-center !justify-center bg-black relative ">
                                 {item.type === "image" ? (
                                     <img
                                         src={`${baseURL}/images/${item.src}`}
                                         alt={`modal-media-${index}`}
-                                        className="max-h-full max-w-full mx-auto object-contain"
+                                        className=" max-w-full !h-[90vh] mx-auto object-contain"
                                     />
                                 ) : (
-                                    <video controls autoPlay className="max-h-full  mx-auto max-w-full object-contain">
+                                    <video controls autoPlay className=" mx-auto !h-[90vh] max-w-full object-contain">
                                         <source src={`${baseURL}/images/${item.src}`} type="video/mp4" />
                                     </video>
                                 )}
@@ -304,7 +319,7 @@ export default function Property() {
                     </h3>
 
                     <h3 className="text-2xl font-bold mb-2">
-                        PKR : {property?.price}
+                        PKR : {formatPrice(property?.price)} ({formatPriceinWord(property?.price)})
                     </h3>
 
                     <ul className="space-y-2">
@@ -314,7 +329,7 @@ export default function Property() {
                         <li><span className="font-semibold">Back:</span> {property.back} ft</li>
                         <li><span className="font-semibold">Location:</span> {property.location}</li>
                     </ul>
-                    <h2 className="text-xl font-semibold mt-2">Description</h2>
+                    <h2 className="text-xl font-semibold mt-2">Description:</h2>
                     <p >{property.description}</p>
                 </div>
 
