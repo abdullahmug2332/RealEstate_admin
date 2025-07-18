@@ -27,7 +27,7 @@ export default function Card(props) {
         <img
           src={`${baseURL}/images/${props.image}`}
           alt="Property"
-          className="w-full h-[250px] object-cover"
+          className="w-full h-[250px] object-cover object-center"
         />
         <div className="p-4 bg-white min-h-[150px]  flex flex-col relative">
           <p

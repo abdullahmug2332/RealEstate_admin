@@ -27,8 +27,9 @@ export default function Properties() {
         axios.get(`${baseURL}/properties`)
             .then(res => {
                 const availableProperties = res.data.filter(
-                    (property) => property.soldout == false && property.rentedOut == false
-                );
+                    (property) => property.soldout == false && property.rentedOut == false)
+                    .sort((a, b) => b.id - a.id);
+                
                 setData(availableProperties);
                 setFilteredData(availableProperties);
                 console.log(availableProperties)
