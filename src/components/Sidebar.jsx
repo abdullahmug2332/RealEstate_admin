@@ -20,7 +20,7 @@ const Sidebar = () => {
     <section
       className={`${
         toggle ? "translate-x-[0px]" : "-translate-x-[100%]"
-      } ${isAuthPage ? "hidden" : "block"} w-[40%] sm:w-[30%] md:w-[20%] lg:w-[20%] xl:w-[15%] 2xl:w-[13%] h-[100vh] duration-500 bg fixed top-0 z-[20]`}
+      } ${isAuthPage ? "hidden" : "block"} w-[50%] sm:w-[30%] md:w-[20%] lg:w-[20%] xl:w-[15%] 2xl:w-[13%] h-[100vh] duration-500 bg fixed top-0 z-[20]`}
     >
       <img
         src={logo}

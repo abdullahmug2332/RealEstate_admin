@@ -27,7 +27,7 @@ export default function Navbar() {
         className={`${
           toggle === false
             ? "w-full"
-            : "w-[64%] sm:w-[75%] md:w-[83%] xl:w-[86%] 2xl:w-[88%]"
+            : "w-[54%] sm:w-[75%] md:w-[83%] xl:w-[86%] 2xl:w-[88%]"
         } top-0 left-0 duration-500 text-white ml-auto`}
       >
         <div className="flex items-center justify-between py-[10px] px-[35px]">
