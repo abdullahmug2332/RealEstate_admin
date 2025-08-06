@@ -133,7 +133,6 @@ const PropertyForm = ({ onSubmit }) => {
         : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
         } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
     >
-            {loading == true && <Loader />}
 
       <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg">
         <h1 className="text-[30px] md:text-[40px] font-semibold">Add Property</h1>

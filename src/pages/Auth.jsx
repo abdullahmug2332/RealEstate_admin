@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
 import { baseURL } from "../../API/baseURL";
 import img1 from "../assets/favicon2.png"; 
-import Loader from "../components/Loader";
-
 const Login = () => {
   const [toogle, setToogle] = useState(false); // Paswword message 8 characters long .
   const [email, setEmail] = useState("");
@@ -65,7 +63,7 @@ const Login = () => {
 
   return (
     <section className="bg-[#1E1E1F] min-h-[100vh] py-[60px]">
-      {loading == true && <Loader/>}
+
       
       <div className="w-[95%] md:w-[80%] min-h-[600px] bg-white mx-auto border p-[30px] flex items-center relative">
         <div className="w-[45%] hidden md:block ">
