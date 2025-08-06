@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
 import { baseURL } from "../../API/baseURL";
 import img1 from "../assets/favicon2.png"; 
+import Loader from "../components/Loader";
 
 const Login = () => {
   const [toogle, setToogle] = useState(false); // Paswword message 8 characters long .
@@ -12,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading,setLoading]=useState(false)
 
   useEffect(() => {
     if (password.length >= 8) {
@@ -25,6 +27,7 @@ const Login = () => {
       setToogle(true);
     } else {
       try {
+        setLoading(true)
         const res = await fetch(`${baseURL}/auth`, {
           method: "POST",
           headers: {
@@ -54,12 +57,16 @@ const Login = () => {
       } catch (err) {
         console.error("Error:", err);
         alert("Something went wrong");
+      }finally{
+        setLoading(false)
       }
     }
   };
 
   return (
     <section className="bg-[#1E1E1F] min-h-[100vh] py-[60px]">
+      {loading == true && <Loader/>}
+      
       <div className="w-[95%] md:w-[80%] min-h-[600px] bg-white mx-auto border p-[30px] flex items-center relative">
         <div className="w-[45%] hidden md:block ">
           <div>

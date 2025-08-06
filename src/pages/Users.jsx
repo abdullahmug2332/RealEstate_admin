@@ -6,6 +6,7 @@ import { baseURL } from "../../API/baseURL";
 
 export default function Users() {
     const toggle = useSelector((state) => state.toggle.value);
+
     const loggedInUserId = localStorage.getItem("id");
     const [formData, setFormData] = useState({
         name: "",
@@ -101,6 +102,7 @@ export default function Users() {
             {message && (
                 <p className="mb-3 text-sm color font-semibold">{message}</p>
             )}
+
 
             <form onSubmit={handleCreate} className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
                 <input

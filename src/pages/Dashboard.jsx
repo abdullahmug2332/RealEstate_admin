@@ -56,7 +56,7 @@ export default function Dashboard() {
       <h1 className='text-[30px] md:text-[40px] font-semibold color '>Dashboard</h1>
 
       {/* Summary Cards */}
-      <div className='grid grid-cols-2 lg:grid-cols-4 gap-1'>
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-1'>
         <Card icon={<IoIosHome className='text-5xl' />} title="Sale Properties" count={soldPropertiesByUs} />
         <Card icon={<TbHomeEco className='text-5xl' />} title="Rent Properties" count={rentedPropertiesByUs} />
         <Card icon={<FaHandshake className='text-5xl' />} title="Deals Done" count={totalDeals} />
