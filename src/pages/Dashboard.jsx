@@ -54,9 +54,8 @@ export default function Dashboard() {
   return (
     <div className={`${toggle === false ? "w-full" : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"} duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}>
       <h1 className='text-[30px] md:text-[40px] font-semibold color '>Dashboard</h1>
-
       {/* Summary Cards */}
-      <div className='grid grid-cols-1 lg:grid-cols-4 gap-1'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1'>
         <Card icon={<IoIosHome className='text-5xl' />} title="Sale Properties" count={soldPropertiesByUs} />
         <Card icon={<TbHomeEco className='text-5xl' />} title="Rent Properties" count={rentedPropertiesByUs} />
         <Card icon={<FaHandshake className='text-5xl' />} title="Deals Done" count={totalDeals} />
@@ -101,9 +100,9 @@ const Card = ({ icon, title, count }) => (
     <div className='text-[#1e1e1f] group-hover:text-white'>
       {icon}
     </div>
-    <div>
+    <div className='flex flex-row lg:flex-col items-center lg:items-start w-full'>
       <p className='text-lg font-medium group-hover:text-white'>{title}</p>
-      <p className='text-xl font-bold text-[#1e1e1f] group-hover:text-white'>{count}</p>
+      <p className='text-xl font-bold text-[#1e1e1f] group-hover:text-white ml-auto lg:ml-0'>{count}</p>
     </div>
   </div>
 );

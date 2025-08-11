@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../API/baseURL";
+import Loader from "../components/Loader"
 
 
 const PropertyForm = ({ onSubmit }) => {
   const navigate = useNavigate();
-    const [loading,setLoading]=useState(false)
-  
+  const [loading, setLoading] = useState(false)
+
   const toggle = useSelector((state) => state.toggle.value);
   const [formData, setFormData] = useState({
     price: "",
@@ -55,21 +56,18 @@ const PropertyForm = ({ onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true)
     const formPayload = new FormData();
-
     // Append regular fields
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== "media") {
         formPayload.append(key, value);
       }
     });
-
     // Append media files
     formData.media.forEach((item) => {
       formPayload.append("media", item.file); // field name must match multer
     });
-
     formPayload.append("soldout", false);
     formPayload.append("soldByUs", false);
     formPayload.append("buyerName", " ");
@@ -79,20 +77,17 @@ const PropertyForm = ({ onSubmit }) => {
     formPayload.append("soldAt", "");
 
     try {
-      setLoading(true)
       const response = await fetch(`${baseURL}/properties`, {
         method: "POST",
         body: formPayload,
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         console.error("Error creating property:", data.error);
         alert("Failed to add property.");
         return;
       }
-      setLoading(false)   
+      setLoading(false)
       alert("Property added successfully!");
       setFormData({
         price: "",
@@ -113,7 +108,7 @@ const PropertyForm = ({ onSubmit }) => {
       console.error("Network error:", error);
       alert("An error occurred while adding the property.");
       setLoading(false)
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -133,7 +128,7 @@ const PropertyForm = ({ onSubmit }) => {
         : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
         } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6`}
     >
-
+      {loading && <Loader />}
       <form onSubmit={handleSubmit} className="space-y-4 bg-white rounded-lg">
         <h1 className="text-[30px] md:text-[40px] font-semibold">Add Property</h1>
 

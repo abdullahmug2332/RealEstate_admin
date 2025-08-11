@@ -71,3 +71,34 @@ textarea{
 .swiper-pagination-bullet-active{
     background-color: black !important;
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  width: 100vw;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 990; /* Optional background */
+}
+
+.loader {
+  width: 70px;
+  height: 70px;
+  border: 5px solid #ccc;
+  border-top: 5px solid #000000; /* Main color */
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
