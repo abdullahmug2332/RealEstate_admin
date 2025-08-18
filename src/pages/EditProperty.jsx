@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { baseURL } from "../../API/baseURL";
+import Loader from '../components/Loader';
 
 const EditProperty = () => {
   const toggle = useSelector((state) => state.toggle.value);
   const { id } = useParams();
   const navigate = useNavigate();
+  const [loading ,setLoading]=useState(false)
 
   const [formData, setFormData] = useState({
     price: "",
@@ -74,6 +76,7 @@ const EditProperty = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const payload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== "media") payload.append(key, value);
@@ -91,6 +94,8 @@ const EditProperty = () => {
     } catch (err) {
       console.error(err);
       alert("Error updating property");
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -112,6 +117,8 @@ const EditProperty = () => {
         : "md:w-[80%] lg:w-[82%] xl:w-[85%] 2xl:w-[87%]"
         } duration-500 font-semibold ml-auto py-[20px] px-[30px] mt-[40px] p-6 `}
     >
+      {loading && <Loader />}
+
       <form onSubmit={handleSubmit} className=" space-y-4">
         <h1 className="text-[30px] md:text-[40px] font-bold mt-3">Edit Property</h1>
         <div className="flex gap-1">
